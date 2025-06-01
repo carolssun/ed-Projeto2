@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -24,7 +27,7 @@ public class Main {
             switch(op){
                 case 1:
                     //System.out.println("Carregar discurso");
-                    leitor.carregarDiscurso("C:\\Users\\carol\\OneDrive - Instituto Presbiteriano Mackenzie\\Semestre_03\\Estrutura_Dados\\ed-Projeto2-1\\Discurso.txt", abb); // Carrega o discurso na árvore
+                    leitor.carregarDiscurso("/Users/talala/ed-Projeto2/Discurso.txt", abb); // Carrega o discurso na árvore
                     break;
                 case 2:
                     // Implementar a lógica para contar palavras
@@ -63,13 +66,65 @@ public class Main {
         
                     break;
                 case 5: 
-                    System.out.println("Verificar sinais de depressão");
-                    // Implementar a lógica para verificar sinais de depressão
+                    System.out.println("\n----- Verificar sinais de depressão -----\n");
+                    if (abb.isEmpty()) {
+                        System.out.println("Árvore vazia. Carregue o discurso primeiro.");
+                        break;
+                    }
+
+                    int totalPalavrasDepressivas = 0;
+                    int palavrasEncontradas = 0;
+
+                    try (BufferedReader br = new BufferedReader(
+                            new FileReader("/Users/talala/ed-Projeto2/PalavrasDepressao.txt"))) {
+                        
+                        String palavra;
+                        while ((palavra = br.readLine()) != null) {
+                            palavra = palavra.trim().toLowerCase();
+
+                            if (!palavra.isEmpty()) {
+                                int ocorrencia = abb.busca(palavra);
+                                if (ocorrencia > 0) {
+                                    System.out.printf("- Palavra encontrada: \"%s\" (%d ocorrência(s))%n", palavra, ocorrencia);
+                                    totalPalavrasDepressivas += ocorrencia;
+                                    palavrasEncontradas++;
+                                }
+                            }
+                        }
+
+                        System.out.printf("%nTotal de diferentes palavras associadas à depressão encontradas: %d%n", palavrasEncontradas);
+                        System.out.printf("Total de ocorrências somadas: %d%n", totalPalavrasDepressivas);
+
+                    } catch (IOException e) {
+                        System.out.println("Erro ao ler o arquivo de palavras depressivas: " + e.getMessage());
+                    }
                     break;
                 case 6:
-                    System.out.println("Estatísticas sobre o texto");
-                    // Implementar a lógica para estatísticas sobre o texto
+                    System.out.println("\n----- Estatísticas sobre o texto -----\n");
+
+                    if (abb.isEmpty()) {
+                        System.out.println("Árvore vazia. Carregue o discurso primeiro.");
+                        break;
+                    }
+
+                    System.out.println("Total de palavras (com repetições): " + abb.contaTotalPalavras());
+                    System.out.println("Total de palavras distintas: " + abb.contaNos());
+                    System.out.println("Altura da árvore: " + abb.altura());
+
+                    Palavra maisFrequente = abb.getMaisFrequente();
+                    Palavra menosFrequente = abb.getMenosFrequente();
+
+                    if (maisFrequente != null) {
+                        System.out.printf("Palavra mais frequente: \"%s\" (%d ocorrência(s))%n",
+                                maisFrequente.getPalavra(), maisFrequente.getOcorrencias());
+                    }
+
+                    if (menosFrequente != null) {
+                        System.out.printf("Palavra menos frequente: \"%s\" (%d ocorrência(s))%n",
+                                menosFrequente.getPalavra(), menosFrequente.getOcorrencias());
+                    }
                     break;
+
                 case 7:
                     System.out.println("Sair");
                     // Link para o video do grupo

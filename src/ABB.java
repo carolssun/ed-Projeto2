@@ -235,5 +235,58 @@ public class ABB {
             + contaTotalPalavras(no.getRight());
     }
 
+    public int contaNos() {
+        return contaNos(root);
+    }
+
+    private int contaNos(Node no) {
+        if (no == null) return 0;
+        return 1 + contaNos(no.getLeft()) + contaNos(no.getRight());
+    }
+
+    // NOVO: calcula a altura da árvore
+    public int altura() {
+        return altura(root);
+    }
+
+    private int altura(Node no) {
+        if (no == null) return -1; // -1 para árvore vazia, 0 para folha
+        return 1 + Math.max(altura(no.left), altura(no.right));
+    }
+
+    // NOVO: retorna a palavra com mais ocorrências
+    public Palavra getMaisFrequente() {
+        return getMaisFrequente(root, null);
+    }
+
+    private Palavra getMaisFrequente(Node no, Palavra atualMaisFrequente) {
+        if (no == null) return atualMaisFrequente;
+
+        Palavra atual = no.getNoPalavra();
+        if (atualMaisFrequente == null || atual.getOcorrencias() > atualMaisFrequente.getOcorrencias()) {
+            atualMaisFrequente = atual;
+        }
+
+        atualMaisFrequente = getMaisFrequente(no.left, atualMaisFrequente);
+        return getMaisFrequente(no.right, atualMaisFrequente);
+    }
+
+    // NOVO: retorna a palavra com menos ocorrências (> 0)
+    public Palavra getMenosFrequente() {
+        return getMenosFrequente(root, null);
+    }
+
+    private Palavra getMenosFrequente(Node no, Palavra atualMenosFrequente) {
+        if (no == null) return atualMenosFrequente;
+
+        Palavra atual = no.getNoPalavra();
+        if (atualMenosFrequente == null || atual.getOcorrencias() < atualMenosFrequente.getOcorrencias()) {
+            atualMenosFrequente = atual;
+        }
+
+        atualMenosFrequente = getMenosFrequente(no.left, atualMenosFrequente);
+        return getMenosFrequente(no.right, atualMenosFrequente);
+    }
+
 }
 
