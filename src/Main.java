@@ -76,9 +76,16 @@ public class Main {
                     break;
 
                 case 6:
-                    System.out.println("Estatísticas sobre o texto");
-                    // Implementar a lógica para estatísticas sobre o texto
+                     if (abb.isEmpty()) {
+                        System.out.println("Árvore vazia. Carregue o discurso primeiro.");
+                        break;
+                    }
+                    System.out.println("\n------- Estátisticas -------");
+                    //System.out.println("Palavra menos frequente: " + abb.getPalavraMenosFrequente());
+                    System.out.println("Quantidade de palavras repetidas no discurso -> " + abb.getQuantidadePalavrasRepetidas());
+                    System.out.println("Palavra mais frequente no discurso -> " + abb.getPalavraMaisFrequente());
                     break;
+
                 case 7:
                     System.out.println("Sair");
                     // Link para o video do grupo
