@@ -229,7 +229,6 @@ public class ABB {
         if (no == null) {
             return 0;
         }
-        // Soma as ocorrências do nó atual + recursão para esquerda e direita
         return no.getNoPalavra().getOcorrencias() 
             + contaTotalPalavras(no.getLeft()) 
             + contaTotalPalavras(no.getRight());
@@ -244,17 +243,15 @@ public class ABB {
         return 1 + contaNos(no.getLeft()) + contaNos(no.getRight());
     }
 
-    // NOVO: calcula a altura da árvore
     public int altura() {
         return altura(root);
     }
 
     private int altura(Node no) {
-        if (no == null) return -1; // -1 para árvore vazia, 0 para folha
+        if (no == null) return -1;
         return 1 + Math.max(altura(no.left), altura(no.right));
     }
 
-    // NOVO: retorna a palavra com mais ocorrências
     public Palavra getMaisFrequente() {
         return getMaisFrequente(root, null);
     }
@@ -271,7 +268,6 @@ public class ABB {
         return getMaisFrequente(no.right, atualMaisFrequente);
     }
 
-    // NOVO: retorna a palavra com menos ocorrências (> 0)
     public Palavra getMenosFrequente() {
         return getMenosFrequente(root, null);
     }
