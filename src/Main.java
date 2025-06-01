@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,15 +23,14 @@ public class Main {
             sc.nextLine(); //consome a quebra de linha pendente
             switch(op){
                 case 1:
-                    //System.out.println("Carregar discurso");
                     leitor.carregarDiscurso("C:\\Users\\carol\\OneDrive - Instituto Presbiteriano Mackenzie\\Semestre_03\\Estrutura_Dados\\ed-Projeto2-1\\Discurso.txt", abb); // Carrega o discurso na árvore
                     break;
+
                 case 2:
-                    // Implementar a lógica para contar palavras
                     System.out.println("Total de palavras no discurso: " + abb.contaTotalPalavras());
                     break;
+
                 case 3:
-                    // Implementar a lógica para buscar uma palavra
                     System.out.println("\nDigite a palavra a ser buscada: ");
                     String palavraBuscada = sc.nextLine().trim().toLowerCase();
                     
@@ -44,12 +43,12 @@ public class Main {
                     if (ocorrencias == -1){
                         System.out.println("Palavra não encontrada");
                     } else {
-                        System.out.println("\nA Palavra " + palavraBuscada + "aparece " + ocorrencias + " vezes no discurso\n");
+                        System.out.println("\nA Palavra " + palavraBuscada + " aparece " + ocorrencias + " vezes no discurso\n");
                     }
-
                     break;
+
+
                 case 4:
-                    // Implementar a lógica para exibir palavras em ordem alfabética
                     if(abb.isEmpty()){
                         System.out.println("\nÁrvore vazia. Carregue o discurso primeiro\n");
                     } else {
@@ -60,12 +59,22 @@ public class Main {
                         abb.executaInOrdem(abb.root());
                         System.out.println(" ");
                     }   
-        
                     break;
+
+
                 case 5: 
-                    System.out.println("Verificar sinais de depressão");
-                    // Implementar a lógica para verificar sinais de depressão
+                    if(abb.isEmpty()){
+                        System.out.println("Carregue o discurso primeiro (opção 1 do menu)");
+                    } else {
+                        try {
+                            AnalisadorDepressao analisador = new AnalisadorDepressao(abb, "PalavrasDepressao.txt");
+                            analisador.analisar();
+                        } catch (Exception e) {
+                            System.out.println("Erro ao carregar arquivo de palavras de depressão: " + e.getMessage());
+                        }
+                    }
                     break;
+
                 case 6:
                     System.out.println("Estatísticas sobre o texto");
                     // Implementar a lógica para estatísticas sobre o texto
