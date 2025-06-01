@@ -77,40 +77,48 @@ public class ABB {
         }
     } */
 
-    public void insere(Palavra novaPalavra) {
-
+    public void insere(Palavra novaPalavra) { // se a arvore estiver vazia, cria um nó e define como a raiz
         if (root == null) {
-             root = new Node(novaPalavra); // Cria um novo Node com a Palavra e define como raiz
-             return; // Termina a função
+            root = new Node(novaPalavra);
+            return;
         }
 
-        Node pai = null;
-        Node percorre = root();
-         
-        while (percorre != null) {
-            pai = percorre;
-            int comparacaoPalavra = novaPalavra.getPalavra().compareToIgnoreCase(percorre.getNoPalavra().getPalavra());
-            if (comparacaoPalavra < 0) {
+        Node pai = null; // pai do novo nó
+        Node percorre = root; // começa pela raiz 
+        boolean palavraExistente = false; //controla se a palavra já existe
+
+        while (percorre != null) { 
+            pai = percorre; // atualiza o nó pai para o nó atual
+            //compara a nova palavra com a do nó atual, ignorar maíuscual ou miniscula
+            int comparacao = novaPalavra.getPalavra().compareToIgnoreCase(percorre.getNoPalavra().getPalavra());
+            
+            if (comparacao < 0) { // ordem alfabética, 
                 percorre = percorre.left;
-            } else if (comparacaoPalavra == 0) {
-                //a palavra pode ja existir na arvore
+            } 
+            else if (comparacao == 0) { // se palavra já existe, incrementa cont de ocorrencias
                 percorre.getNoPalavra().somarOcorrencias();
-            }else{
+                palavraExistente = true; // marcar palavra como existente
+                break; 
+            } 
+            else { // ordem alfabética
                 percorre = percorre.right;
             }
-            
         }
-        //nesse ponto do codigo, 'percorre' é nulo e pai
-        //é o nó onde novaPalavra deve ser ligada
-        Node novoNo = new Node(novaPalavra);
-        novoNo.setParent(pai); // Define o nó pai do novo nó
-        //ligando o novo nó com os filhos
-        int comparacaoFinal = novaPalavra.getPalavra().compareToIgnoreCase(pai.getNoPalavra().getPalavra());
 
-        if(comparacaoFinal < 0){
-            pai.setLeft(novoNo); // Define o nó esquerdo do pai como o novo nó
-        }else{
-            pai.setRight(novoNo); // Define o nó direito do pai como o novo nó
+        // Só insere se a palavra não existir
+        if (!palavraExistente) {
+            Node novoNo = new Node(novaPalavra);
+            novoNo.setParent(pai); // definir pai do novo nó
+            
+            // decidir posicionamento
+            int comparacaoFinal = novaPalavra.getPalavra().compareToIgnoreCase(
+                                pai.getNoPalavra().getPalavra());
+            //ordem alfabetica
+            if (comparacaoFinal < 0) {
+                pai.setLeft(novoNo);
+            } else {
+                pai.setRight(novoNo);
+            }
         }
     }
         
@@ -163,19 +171,38 @@ public class ABB {
         }
     } */
 
-    /*public Node busca(Node k) {
-        Node y = root();
-        while (y != null) {
-            if (y.elemento == k.elemento) {
-                return y;
-            } else if (y.elemento < k.elemento) {
-                y = y.right;
-            } else {
-                y = y.left;
-            }
+    // public Node busca(Node k) {
+    //     Node y = root();
+    //     while (y != null) {
+    //         if (y.elemento == k.elemento) {
+    //             return y;
+    //         } else if (y.elemento < k.elemento) {
+    //             y = y.right;
+    //         } else {
+    //             y = y.left;
+    //         }
+    //     }
+    //     return null;
+    // }
+
+    public int busca(String palavraBuscada){
+        return busca(root, palavraBuscada.toLowerCase());
+    }
+
+    public int busca(Node no, String palavraBuscada){
+        if(no==null){
+            return -1;
         }
-        return null;
-    }*/
+        int comparacao = palavraBuscada.compareToIgnoreCase(no.getNoPalavra().getPalavra());
+        if (comparacao <0){
+            return busca(no.getLeft(),palavraBuscada);
+        } else if( comparacao >0) {
+            return busca(no.getRight(), palavraBuscada);
+        } else{
+            return no.getNoPalavra().getOcorrencias(); // retorna o número de ocorrencias 
+        }
+
+    }
 
     public Node maximo(Node x) {
         //Node<E> x = root();
@@ -191,6 +218,21 @@ public class ABB {
             x = x.left;
         }
         return x;
+    }
+
+
+    public int contaTotalPalavras() {
+        return contaTotalPalavras(root);
+    }
+
+    private int contaTotalPalavras(Node no) {
+        if (no == null) {
+            return 0;
+        }
+        // Soma as ocorrências do nó atual + recursão para esquerda e direita
+        return no.getNoPalavra().getOcorrencias() 
+            + contaTotalPalavras(no.getLeft()) 
+            + contaTotalPalavras(no.getRight());
     }
 
 }

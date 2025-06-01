@@ -10,7 +10,9 @@ public class Node {
     }
 
     public void mostraNo(){
-        System.out.print(noPalavra.toString() + " ");
+        System.out.printf("%-15s     |     %d ocorrências\n", 
+                     noPalavra.getPalavra(), 
+                     noPalavra.getOcorrencias());
     }
     
     public Palavra getNoPalavra() {

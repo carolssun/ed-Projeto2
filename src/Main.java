@@ -9,7 +9,7 @@ public class Main {
         LeitorArquivo leitor = new LeitorArquivo(); // Cria um novo leitor de arquivo
 
         do{
-            System.out.println("---Menu---");
+            System.out.println("\n============ Menu ============");
             System.out.println("1. Carregar discurso");
             System.out.println("2. Contador de palavras ");
             System.out.println("3. Buscar palavra");
@@ -24,19 +24,43 @@ public class Main {
             switch(op){
                 case 1:
                     //System.out.println("Carregar discurso");
-                    leitor.carregarDiscurso("Discurso.txt", abb); // Carrega o discurso na árvore
+                    leitor.carregarDiscurso("C:\\Users\\carol\\OneDrive - Instituto Presbiteriano Mackenzie\\Semestre_03\\Estrutura_Dados\\ed-Projeto2-1\\Discurso.txt", abb); // Carrega o discurso na árvore
                     break;
                 case 2:
-                    System.out.println("Contador de palavras");
                     // Implementar a lógica para contar palavras
+                    System.out.println("Total de palavras no discurso: " + abb.contaTotalPalavras());
                     break;
                 case 3:
-                    System.out.println("Buscar palavra");
                     // Implementar a lógica para buscar uma palavra
+                    System.out.println("\nDigite a palavra a ser buscada: ");
+                    String palavraBuscada = sc.nextLine().trim().toLowerCase();
+                    
+                    if (palavraBuscada.isEmpty()) {
+                        System.out.println("Nenhuma palavra foi digitada!");
+                        break;
+                    }
+                    int ocorrencias = abb.busca(palavraBuscada);
+
+                    if (ocorrencias == -1){
+                        System.out.println("Palavra não encontrada");
+                    } else {
+                        System.out.println("\nA Palavra " + palavraBuscada + "aparece " + ocorrencias + " vezes no discurso\n");
+                    }
+
                     break;
                 case 4:
-                    System.out.println("Exibir as palavras do discurso em ordem alfabética");
                     // Implementar a lógica para exibir palavras em ordem alfabética
+                    if(abb.isEmpty()){
+                        System.out.println("\nÁrvore vazia. Carregue o discurso primeiro\n");
+                    } else {
+                        System.out.println("Palavras acentuadas estarão localizadas no final");
+                        System.out.println("\n----- Palavras em ordem alfabética -----\n");
+                        System.out.println("Palavra             |       Ocorrências      ");
+                        System.out.println("---------------------------------------------");
+                        abb.executaInOrdem(abb.root());
+                        System.out.println(" ");
+                    }   
+        
                     break;
                 case 5: 
                     System.out.println("Verificar sinais de depressão");
