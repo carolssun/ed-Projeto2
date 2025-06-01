@@ -54,29 +54,6 @@ public class ABB {
         no.mostraNo();
     }
 
-    /* 
-    codigo da prof, devemos adaptar para PALAVRA
-    public void insere(Node z) {
-        Node y = null;
-        Node x = root();
-        while (x != null) {
-            y = x;
-            if (z.elemento < x.elemento) {
-                x = x.left;
-            } else {
-                x = x.right;
-            }
-        }
-        z.parent = y;
-        if (y == null) {
-            root = z;
-        } else if (z.elemento < y.elemento) {
-            y.left = z;
-        } else {
-            y.right = z;
-        }
-    } */
-
     public void insere(Palavra novaPalavra) { // se a arvore estiver vazia, cria um nó e define como a raiz
         if (root == null) {
             root = new Node(novaPalavra);
@@ -122,68 +99,8 @@ public class ABB {
         }
     }
         
+    /*public void delete*/
 
-    /*public void delete(Node Tree, int Tar) {
-        Node Min, Temp;
-        if (Tree == null) { // árvore vazia
-            return;
-        } else if (Tar < Tree.elemento) {
-            delete(Tree.left, Tar); // buscar na esquerda
-        } else if (Tar > Tree.elemento) {
-            delete(Tree.right, Tar);// buscar na direita
-        } else {
-            // encontrou o nó a ser deletado
-            if (Tree.left != null && Tree.right != null) {
-                // nó com dois filhos 
-                Min = minimo(Tree.right);
-                Tree.elemento = Min.elemento;
-                delete(Tree.right, Tree.elemento);
-            } else {
-                // nó com um ou nenhum filho
-                if (Tree.left == null) {
-                    if (Tree.parent == null) {
-                        root = Tree.right; // A raiz deverá ser deletada
-                    } else {
-                        if (Tree.right != null) {
-                            Tree.right.parent = Tree.parent;
-                        }
-                        if (Tree == Tree.parent.left) {
-                            Tree.parent.left = Tree.right;
-                        } else {
-                            Tree.parent.right = Tree.right;
-                        }
-                    }
-
-                } else if (Tree.right == null) {
-                    if (Tree.parent == null) {
-                        root = Tree.left; // A raiz deverá ser deletada
-                    } else {
-
-                        Tree.left.parent = Tree.parent;
-                        if (Tree == Tree.parent.left) {
-                            Tree.parent.left = Tree.left;
-                        } else {
-                            Tree.parent.right = Tree.left;
-                        }
-                    }
-                }
-            }
-        }
-    } */
-
-    // public Node busca(Node k) {
-    //     Node y = root();
-    //     while (y != null) {
-    //         if (y.elemento == k.elemento) {
-    //             return y;
-    //         } else if (y.elemento < k.elemento) {
-    //             y = y.right;
-    //         } else {
-    //             y = y.left;
-    //         }
-    //     }
-    //     return null;
-    // }
 
     public int busca(String palavraBuscada){
         return busca(root, palavraBuscada.toLowerCase());
@@ -235,5 +152,45 @@ public class ABB {
             + contaTotalPalavras(no.getRight());
     }
 
+
+    // Método para encontrar a palavra mais frequente
+      public Palavra getPalavraMaisFrequente() {
+        return getPalavraMaisFrequente(root, null);
+    }
+
+    private Palavra getPalavraMaisFrequente(Node no, Palavra atualMaisFrequente) {
+        if (no == null) return atualMaisFrequente;
+
+        Palavra atual = no.getNoPalavra();
+        if (atualMaisFrequente == null || atual.getOcorrencias() > atualMaisFrequente.getOcorrencias()) {
+            atualMaisFrequente = atual;
+        }
+
+        atualMaisFrequente = getPalavraMaisFrequente(no.left, atualMaisFrequente);
+        return getPalavraMaisFrequente(no.right, atualMaisFrequente);
+    }
+
+    
+    // Método para encontrar a palavra menos frequente
+    // public String getPalavraMenosFrequente() {
+    //     if (root == null) return null;
+        
+    //     Node atual = root;
+    //     while (atual.left != null) { // Vai até o nó mais à esquerda
+    //         atual = atual.left;
+    //     }
+    //     return atual.getNoPalavra().getPalavra() + " (" + atual.getNoPalavra().getOcorrencias() + "x)";
+    // }
+
+    public int getQuantidadePalavrasRepetidas() {
+        return contarRepetidas(root);
+    }
+
+    private int contarRepetidas(Node no) {
+        if (no == null) return 0;
+        
+        int count = (no.getNoPalavra().getOcorrencias() > 1) ? 1 : 0;
+        return count + contarRepetidas(no.getLeft()) + contarRepetidas(no.getRight());
+    }
 }
 
