@@ -37,4 +37,46 @@ public class LeitorArquivo {
             e.printStackTrace(); // Mostra o stack trace completo para diagnóstico
         }
     }
+
+    public void analisarDepressao(String nomeArquivo, ABB abb){
+        System.out.println("\n===== RELATÓRIO DE SINAIS =====");
+                    System.out.println("Palavra              |       Ocorrências      ");
+                    System.out.println("---------------------------------------------");
+
+                    if (abb.isEmpty()) {
+                        System.out.println("Árvore vazia. Carregue o discurso primeir(opção 1 do menu)).");
+                    }
+
+                    int totalPalavrasDepressivas = 0;
+                    int palavrasEncontradas = 0;
+
+                    try (BufferedReader br = new BufferedReader(
+                            new FileReader(nomeArquivo))) {
+                        
+                        String palavra;
+                        while ((palavra = br.readLine()) != null) {
+                            palavra = palavra.trim().toLowerCase();
+
+                            if (!palavra.isEmpty()) {
+                                int ocorrencia = abb.busca(palavra);
+                                if (ocorrencia > 0) {
+                                    System.out.printf(" %-15s     |    %d ocorrências%n", palavra, ocorrencia);
+                                    totalPalavrasDepressivas += ocorrencia;
+                                    palavrasEncontradas++;
+
+                                }
+                            }
+                        }
+
+                        double percentual = (double) palavrasEncontradas/ 43 * 100;
+                        System.out.println("\nPalavras relacionadas à depressão analisadas-> 43" );
+                        System.out.println("Qtd de sinais de alerta detectados no discurso-> " + palavrasEncontradas);
+                        System.out.printf("Qtd de sinais de alerta detectados com repetição-> %d%n", totalPalavrasDepressivas);
+                        System.out.printf("Taxa de detecção-> %.1f%%\n", percentual);
+                        
+
+                    } catch (IOException e) {
+                        System.out.println("Erro ao ler o arquivo de palavras depressivas: " + e.getMessage());
+                    }
+    }
 }

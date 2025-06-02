@@ -23,7 +23,7 @@ public class Main {
             sc.nextLine(); //consome a quebra de linha pendente
             switch(op){
                 case 1:
-                    leitor.carregarDiscurso("C:\\Users\\carol\\OneDrive - Instituto Presbiteriano Mackenzie\\Semestre_03\\Estrutura_Dados\\ed-Projeto2-1\\Discurso.txt", abb); // Carrega o discurso na árvore
+                    leitor.carregarDiscurso("Discurso.txt", abb); // Carrega o discurso na árvore
                     break;
 
                 case 2:
@@ -63,16 +63,7 @@ public class Main {
 
 
                 case 5: 
-                    if(abb.isEmpty()){
-                        System.out.println("Carregue o discurso primeiro (opção 1 do menu)");
-                    } else {
-                        try {
-                            AnalisadorDepressao analisador = new AnalisadorDepressao(abb, "PalavrasDepressao.txt");
-                            analisador.analisar();
-                        } catch (Exception e) {
-                            System.out.println("Erro ao carregar arquivo de palavras de depressão: " + e.getMessage());
-                        }
-                    }
+                    leitor.analisarDepressao("PalavrasDepressao.txt",abb);
                     break;
 
                 case 6:
@@ -81,7 +72,6 @@ public class Main {
                         break;
                     }
                     System.out.println("\n------- Estátisticas -------");
-                    //System.out.println("Palavra menos frequente: " + abb.getPalavraMenosFrequente());
                     System.out.println("Quantidade de palavras repetidas no discurso -> " + abb.getQuantidadePalavrasRepetidas());
                     System.out.println("Palavra mais frequente no discurso -> " + abb.getPalavraMaisFrequente());
                     break;
