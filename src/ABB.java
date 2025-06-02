@@ -159,6 +159,7 @@ public class ABB {
     }
 
     private Palavra getPalavraMaisFrequente(Node no, Palavra atualMaisFrequente) {
+        //para identificar o tema principal do discurso
         if (no == null) return atualMaisFrequente;
 
         Palavra atual = no.getNoPalavra();
@@ -183,6 +184,7 @@ public class ABB {
     // }
 
     public int getQuantidadePalavrasRepetidas() {
+        //mede a riqueza do vocabulario do discurso
         return contarRepetidas(root);
     }
 
