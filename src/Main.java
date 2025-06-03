@@ -79,6 +79,8 @@ public class Main {
                 case 7:
                     System.out.println("Sair");
                     // Link para o video do grupo
+                    System.out.println("https://youtu.be/lcI4wII-XmU?si=xOpoHEFTGBpJkRqB");
+                    System.out.println("\nObrigada pelo semestre :) ");
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
